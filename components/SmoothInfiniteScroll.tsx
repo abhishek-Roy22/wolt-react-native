@@ -84,7 +84,7 @@ const SmoothInfiniteScroll = ({
     () => scrollY.value,
     (y) => {
       if (scrollDirection === 'down') {
-        if (y >= totalContentHeight) {
+        if (y >= totalWrapHeight) {
           scrollY.value = 0;
           scrollTo(scrollRef, 0, 0, false);
         } else {
@@ -92,8 +92,8 @@ const SmoothInfiniteScroll = ({
         }
       } else {
         if (y <= 0) {
-          scrollY.value = totalContentHeight;
-          scrollTo(scrollRef, 0, totalContentHeight, false);
+          scrollY.value = totalWrapHeight;
+          scrollTo(scrollRef, 0, totalWrapHeight, false);
         } else {
           scrollTo(scrollRef, 0, y, false);
         }

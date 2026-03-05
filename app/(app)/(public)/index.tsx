@@ -59,7 +59,7 @@ export default function Index() {
         >
           <Text style={styles.privacyText}>
             Please visit{' '}
-            <Text style={styles.pricacyLink} onPress={openWebBrowser}>
+            <Text style={styles.privacyLink} onPress={openWebBrowser}>
               Wolt Privacy Statement{' '}
             </Text>
             to learn about personal data processing at Wolt.
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 18,
   },
-  pricacyLink: {
+  privacyLink: {
     color: '#4285F4',
     textDecorationLine: 'underline',
   },
