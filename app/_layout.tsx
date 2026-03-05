@@ -1,12 +1,24 @@
+import { Nunito_400Regular, Nunito_700Bold } from '@expo-google-fonts/nunito';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Stack } from 'expo-router';
+import { useFonts } from 'expo-font';
+import { Slot } from 'expo-router';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
+  let [fontsLoaded] = useFonts({
+    Nunito_400Regular,
+    Nunito_700Bold,
+  });
+
+  if (!fontsLoaded) return null;
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <Stack />
-    </QueryClientProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <QueryClientProvider client={queryClient}>
+        <Slot />
+      </QueryClientProvider>
+    </GestureHandlerRootView>
   );
 }
