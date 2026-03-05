@@ -1,5 +1,6 @@
 import AppleAuthButton from '@/components/auth/AppleAuthButton';
 import GoogleAuthButton from '@/components/auth/GoogleAuthButton';
+import SmoothInfiniteScroll from '@/components/SmoothInfiniteScroll';
 import { Fonts } from '@/constants/theme';
 import {
   Image,
@@ -13,11 +14,21 @@ import Animated, { FadeInDown } from 'react-native-reanimated';
 
 export default function Index() {
   const openWebBrowser = () => {
-    Linking.openURL('http://galaxiex.dev');
+    Linking.openURL('https://galaxiex.dev');
   };
   return (
     <View style={styles.container}>
-      <View style={styles.headerContainer}></View>
+      <View style={styles.headerContainer}>
+        <View>
+          <SmoothInfiniteScroll scrollDirection="down" iconSet="set1" />
+        </View>
+        <View>
+          <SmoothInfiniteScroll scrollDirection="up" iconSet="set2" />
+        </View>
+        <View>
+          <SmoothInfiniteScroll scrollDirection="down" iconSet="set3" />
+        </View>
+      </View>
       <View style={styles.contentContainer}>
         <Image
           source={require('@/assets/images/wolt-logo.png')}
@@ -64,7 +75,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerContainer: {
-    flex: 0.5,
+    flex: 0.7,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 4,
+    position: 'relative',
+    overflow: 'hidden',
   },
   contentContainer: {
     flex: 1,
