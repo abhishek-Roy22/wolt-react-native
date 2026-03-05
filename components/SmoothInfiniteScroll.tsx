@@ -36,6 +36,7 @@ const iconDataSets = {
 const ITEM_HEIGHT = 160;
 const SCROLL_SPEED = 20; // pixels per second
 const GAP = 10; // gap between items from styles
+const PADDING_VERTICAL = 20; // padding from container style
 
 interface SmoothInfiniteScrollProps {
   scrollDirection?: 'up' | 'down';
@@ -53,38 +54,39 @@ const SmoothInfiniteScroll = ({
   const items = [...iconData, ...iconData];
   const totalContentHeight = iconData.length * ITEM_HEIGHT;
 
-  // Calculate total wrap height including gaps between items
-  // Each item has a gap after it (except conceptually the last, but we're wrapping)
+  // Calculate total wrap height including gaps between items and vertical padding
+  // Total wrap height = content + gaps + top padding + bottom padding
   const totalWrapHeight = totalContentHeight + iconData.length * GAP;
+  const adjustedWrapHeight = totalWrapHeight + PADDING_VERTICAL * 2;
 
   useEffect(() => {
     // Calculate duration based on SCROLL_SPEED and total distance
-    const duration = (totalWrapHeight / SCROLL_SPEED) * 1000; // convert to milliseconds
+    const duration = (adjustedWrapHeight / SCROLL_SPEED) * 1000; // convert to milliseconds
 
     if (scrollDirection === 'down') {
-      // Start at 0, animate to totalWrapHeight
+      // Start at 0, animate to adjustedWrapHeight
       scrollY.value = 0;
       scrollY.value = withRepeat(
-        withTiming(totalWrapHeight, { duration }),
+        withTiming(adjustedWrapHeight, { duration }),
         -1, // infinite repeats
         false, // don't reverse
       );
     } else {
-      // Start at totalWrapHeight, animate to 0
-      scrollY.value = totalWrapHeight;
+      // Start at adjustedWrapHeight, animate to 0
+      scrollY.value = adjustedWrapHeight;
       scrollY.value = withRepeat(
         withTiming(0, { duration }),
         -1, // infinite repeats
         false, // don't reverse
       );
     }
-  }, [scrollDirection, totalWrapHeight]);
+  }, [scrollDirection, adjustedWrapHeight]);
 
   useAnimatedReaction(
     () => scrollY.value,
     (y) => {
       if (scrollDirection === 'down') {
-        if (y >= totalWrapHeight) {
+        if (y >= adjustedWrapHeight) {
           scrollY.value = 0;
           scrollTo(scrollRef, 0, 0, false);
         } else {
@@ -92,8 +94,8 @@ const SmoothInfiniteScroll = ({
         }
       } else {
         if (y <= 0) {
-          scrollY.value = totalWrapHeight;
-          scrollTo(scrollRef, 0, totalWrapHeight, false);
+          scrollY.value = adjustedWrapHeight;
+          scrollTo(scrollRef, 0, adjustedWrapHeight, false);
         } else {
           scrollTo(scrollRef, 0, y, false);
         }
